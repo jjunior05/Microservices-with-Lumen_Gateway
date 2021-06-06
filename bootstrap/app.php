@@ -48,6 +48,13 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+
+/**
+ * Register config files
+ */
+
+$app->configure('services');
+
 /*
 |--------------------------------------------------------------------------
 | Register Config Files
