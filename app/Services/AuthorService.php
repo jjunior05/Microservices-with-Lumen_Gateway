@@ -14,8 +14,18 @@ class AuthorService
      */
     public $baseUri;
 
-    public function _construct()
+    public function __construct()
     {
         $this->baseUri = config('services.authors.base_uri');
+    }
+
+    /**
+     * Obtain the full list of authors service
+     * @return string
+     */
+    public function obtainAuthors()
+    {
+
+        return $this->performRequest('GET', '/authors');
     }
 }
