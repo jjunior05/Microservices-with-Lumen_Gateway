@@ -34,7 +34,7 @@ trait ApiResponser
      * @param int $code
      * @return Illuminate\Http\Response
      */
-    public function errorMEssage($message, $code)
+    public function errorMessage($message, $code)
     {
         return response($message, $code)->header('Content-Type', 'application/json');
     }
