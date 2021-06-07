@@ -33,6 +33,7 @@ class BookController extends Controller
      */
     public function __construct(BookService $bookService, AuthorService $authorService)
     {
+
         $this->bookService = $bookService;
         $this->authorService = $authorService;
     }
