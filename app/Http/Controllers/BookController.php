@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Services\AuthorService;
 use App\Services\BookService;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -20,13 +21,20 @@ class BookController extends Controller
     public $bookService;
 
     /**
+     * The service for consume the authors microservice
+     * @var AuthorService
+     */
+    public $authorService;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(BookService $bookService)
+    public function __construct(BookService $bookService, AuthorService $authorService)
     {
         $this->bookService = $bookService;
+        $this->authorService = $authorService;
     }
 
     /**
@@ -44,29 +52,36 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorService->obtainAuthor($request->author_id);
+
+        return $this->successResponse($this->bookService->createBooks($request->all()), Response::HTTP_CREATED);
     }
 
     /**
-     * Get an instance of book
+     * Obtains and show one single book
      * @return illuminate\Http\Response
      */
     public function show($book)
     {
+        return $this->successResponse($this->bookService->obtainBook($book));
     }
 
     /**
-     * Update an instance of book
+     * Update an existing book
      * @return illuminate\Http\Response
      */
-    public function update($book, Request $request)
+    public function update(Request $request, $book)
     {
+        return $this->successResponse($this->bookService->editBook($request->all(), $book), Response::HTTP_OK);
     }
 
+
     /**
-     * Delete an instance of book
+     * Delete an existing book
      * @return illuminate\Http\Response
      */
     public function destroy($book)
     {
+        return $this->successResponse($this->bookService->deleteBook($book));
     }
 }
